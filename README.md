@@ -37,7 +37,26 @@ or
 
 Import and use the component in your React app:
 
-`import ImageMagnifier from 'point-focus' function Example() { return ( <ImageMagnifier src="/images/sample.jpg" zoomSrc="/images/sample-large.jpg" width={400} height={300} zoomScale={2} fadeDuration={300} moveType="drag" zoomType="click" afterZoomIn={() => console.log('Zoomed in!')} afterZoomOut={() => console.log('Zoomed out!')} /> ) }`
+```js
+import ImageMagnifier from "point-focus";
+
+function Example() {
+   return (
+      <ImageMagnifier
+         src="/images/sample.jpg"
+         zoomSrc="/images/sample-large.jpg"
+         width={400}
+         height={300}
+         zoomScale={2}
+         fadeDuration={300}
+         moveType="drag"
+         zoomType="click"
+         afterZoomIn={() => console.log("Zoomed in!")}
+         afterZoomOut={() => console.log("Zoomed out!")}
+      />
+   );
+}
+```
 
 **Basic Props:**
 
