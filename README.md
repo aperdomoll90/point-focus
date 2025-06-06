@@ -20,7 +20,8 @@
 - **TypeScript** – Safer development
 - **SCSS Modules** – Scoped styling
 
-**Requirements:**  
+**Requirements:**
+
 - React 17+
 - Node.js with npm or yarn
 
@@ -38,64 +39,58 @@ yarn add point-focus
 import ImageMagnifier from 'point-focus'
 
 function Example() {
-  return (
-    <ImageMagnifier
-      src="/images/sample.jpg"
-      zoomSrc="/images/sample-large.jpg"
-      moveType="drag"
-      zoomType="click"
-      alt='Image alt'
-      zoomScale={2}
-    />
-  )
+  return <ImageMagnifier src='/images/sample.jpg' zoomSrc='/images/sample-large.jpg' moveType='drag' zoomType='click' alt='Image alt' zoomScale={2} />
 }
 ```
 
 ## 🔧 Props Overview
 
-| Prop                    | Type                          | Default     | Description |
-|-------------------------|-------------------------------|-------------|-------------|
-| `src`                   | `string`                      | — (required) | Main image source |
-| `zoomSrc`               | `string`                      | `src`       | High-res zoom source |
-| `sources`               | `array`                       | —           | `<source>` tags for `<picture>` |
-| `width` / `height`      | `number`                      | —           | Container dimensions |
-| `zoomScale`             | `number`                      | `1`         | Magnification ratio |
-| `zoomPreload`           | `boolean`                     | `false`     | Preload zoom image on mount |
-| `fadeDuration`          | `number`                      | `150`       | Animation duration in ms |
-| `moveType`              | `'follow' | 'drag' | 'pinch'` | `'follow'`  | Pan behavior during zoom |
-| `zoomType`              | `'click' | 'hover'`           | `'click'`   | How zoom is activated |
-| `clickToZoomOut`        | `boolean`                     | `false`     | Allow clicking image to zoom out |
-| `hideCloseButton`       | `boolean`                     | `false`     | Hide zoom-close button |
-| `alt`                   | `string`                      | `''`        | Alt text for both images |
-| `tabIndex`              | `number`                      | `0`         | Keyboard navigation index |
-| `containerClassName`    | `string`                      | —           | Extra class for the wrapper |
-| `baseImageClassName`    | `string`                      | —           | Extra class for the base image |
-| `zoomImageClassName`    | `string`                      | —           | Extra class for zoom image |
-| `closeButtonClassName`  | `string`                      | —           | Custom class for close button |
-| `containerAriaLabel`    | `string`                      | —           | Accessibility label for container |
-| `zoomImageAriaLabel`    | `string`                      | —           | ARIA label for zoom image |
-| `closeButtonAriaLabel`  | `string`                      | —           | ARIA label for close button |
-| `closeButtonContent`    | `ReactNode`                   | `X` icon    | Replace the default close icon |
-| `overlay`               | `ReactNode`                   | —           | Optional overlay inside zoom container |
-| `loadingPlaceholder`    | `ReactNode`                   | —           | Shown while zoom image loads |
-| `errorPlaceholder`      | `ReactNode`                   | —           | Shown if zoom image fails |
-| `externalZoomState`     | `boolean`                     | —           | For controlled zoom state |
-| `setExternalZoomState`  | `(val: boolean) => void`      | —           | Setter for external zoom state |
-| `onMouseEnter`          | `() => void`                  | —           | Called on hover enter |
-| `onMouseLeave`          | `() => void`                  | —           | Called on hover leave |
-| `onClickImage`          | `() => void`                  | —           | Called when image is clicked |
-| `onZoom`                | `() => void`                  | —           | Called when zoom starts |
-| `onClose`               | `() => void`                  | —           | Called when zoom closes |
-| `afterZoomImgLoaded`    | `() => void`                  | —           | Called when zoom image loads |
-| `afterZoomOut`          | `() => void`                  | —           | Called after zoom exits |
-| `onBaseImageError`      | `() => void`                  | —           | Called if base image fails to load |
-| `onZoomImageError`      | `() => void`                  | —           | Called if zoom image fails to load |
-| `onDragStart`           | `() => void`                  | —           | Called on drag start |
-| `onDragEnd`             | `() => void`                  | —           | Called on drag end |
+| Prop                      | Type                     | Default      | Description                                    |
+| ------------------------- | ------------------------ | ------------ | ---------------------------------------------- | --------------------- | ------------------------ |
+| `src`                     | `string`                 | — (required) | Main image source                              |
+| `zoomSrc`                 | `string`                 | `src`        | High-res zoom source                           |
+| `sources`                 | `array`                  | —            | `<source>` tags for `<picture>`                |
+| `width` / `height`        | `number`                 | —            | Container dimensions                           |
+| `zoomScale`               | `number`                 | `1`          | Magnification ratio                            |
+| `zoomPreload`             | `boolean`                | `false`      | Preload zoom image on mount                    |
+| `fadeDuration`            | `number`                 | `150`        | Animation duration in ms                       |
+| `moveType`                | `'follow'                | 'drag'       | 'pinch'`                                       | `'follow'`            | Pan behavior during zoom |
+| `zoomType`                | `'click'                 | 'hover'`     | `'click'`                                      | How zoom is activated |
+| `clickToZoomOut`          | `boolean`                | `false`      | Allow clicking image to zoom out               |
+| `hideCloseButton`         | `boolean`                | `false`      | Hide zoom-close button                         |
+| `alt`                     | `string`                 | `''`         | Alt text for both images                       |
+| `tabIndex`                | `number`                 | `0`          | Keyboard navigation index                      |
+| `containerClassName`      | `string`                 | —            | Extra class for the wrapper                    |
+| `baseImageClassName`      | `string`                 | —            | Extra class for the base image                 |
+| `zoomImageClassName`      | `string`                 | —            | Extra class for zoom image                     |
+| `closeButtonClassName`    | `string`                 | —            | Custom class for close button                  |
+| `containerAriaLabel`      | `string`                 | —            | Accessibility label for container              |
+| `zoomImageAriaLabel`      | `string`                 | —            | ARIA label for zoom image                      |
+| `closeButtonAriaLabel`    | `string`                 | —            | ARIA label for close button                    |
+| `closeButtonContent`      | `ReactNode`              | `X` icon     | Replace the default close icon                 |
+| `overlay`                 | `ReactNode`              | —            | Optional overlay inside zoom container         |
+| `loadingPlaceholder`      | `ReactNode`              | —            | Shown while zoom image loads                   |
+| `errorPlaceholder`        | `ReactNode`              | —            | Shown if zoom image fails                      |
+| `disableLoadingFallbacks` | `boolean`                | `false`      | Disables the base image loading placeholder UI |
+| `disableErrorFallbacks`   | `boolean`                | `false`      | Disables the base image error fallback UI      |
+| `externalZoomState`       | `boolean`                | —            | For controlled zoom state                      |
+| `setExternalZoomState`    | `(val: boolean) => void` | —            | Setter for external zoom state                 |
+| `onMouseEnter`            | `() => void`             | —            | Called on hover enter                          |
+| `onMouseLeave`            | `() => void`             | —            | Called on hover leave                          |
+| `onClickImage`            | `() => void`             | —            | Called when image is clicked                   |
+| `onZoom`                  | `() => void`             | —            | Called when zoom starts                        |
+| `onClose`                 | `() => void`             | —            | Called when zoom closes                        |
+| `afterZoomImgLoaded`      | `() => void`             | —            | Called when zoom image loads                   |
+| `afterZoomOut`            | `() => void`             | —            | Called after zoom exits                        |
+| `onBaseImageError`        | `() => void`             | —            | Called if base image fails to load             |
+| `onZoomImageError`        | `() => void`             | —            | Called if zoom image fails to load             |
+| `onDragStart`             | `() => void`             | —            | Called on drag start                           |
+| `onDragEnd`               | `() => void`             | —            | Called on drag end                             |
 
 ## 🧭 Roadmap
 
 ### ✅ Already Implemented
+
 - SSR support (Next.js, Gatsby)
 - Click or hover zoom trigger
 - Follow mouse or drag pan
@@ -111,13 +106,14 @@ function Example() {
 - Programmatic zoom positioning setup via `onLoadCallback`
 
 ### 🚧 Planned Features
-- [ ] **Pinch-to-zoom** for touch devices  
-- [ ] **Zoom lens / magnifier glass** effect  
-- [ ] **Zoom on scroll / mouse wheel**  
-- [ ] **Double-click or double-tap to zoom**  
-- [ ] **Animated transitions with easing customization**  
-- [ ] **Programmatic zoom in/out methods**  
-- [ ] **Granular keyboard navigation**  
+
+- [ ] **Pinch-to-zoom** for touch devices
+- [ ] **Zoom lens / magnifier glass** effect
+- [ ] **Zoom on scroll / mouse wheel**
+- [ ] **Double-click or double-tap to zoom**
+- [ ] **Animated transitions with easing customization**
+- [ ] **Programmatic zoom in/out methods**
+- [ ] **Granular keyboard navigation**
 - [ ] **Fallback UI for broken zoom images**
 - [ ] **Built-in modal/lightbox integration**
 
