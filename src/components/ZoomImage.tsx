@@ -30,6 +30,8 @@ const ZoomImage = React.forwardRef<HTMLImageElement, IZoomImageTypes>(
       loadingPlaceholder,
       errorPlaceholder,
       zoomScale,
+      disableLoadingFallbacks = false,
+      disableErrorFallbacks = false,
     },
     ref
   ) => {
@@ -83,13 +85,13 @@ const ZoomImage = React.forwardRef<HTMLImageElement, IZoomImageTypes>(
           tabIndex={0}
         />
 
-        {hasError && isZoomed && (
+        {!disableErrorFallbacks && hasError && isZoomed && (
           <div className={styles['c-point-focus__placeholder']} data-testid='pf-zoom-error'>
             {errorPlaceholder ?? <FallbackImage />}
           </div>
         )}
 
-        {isLoading && !hasError && isZoomed && (
+        {!disableLoadingFallbacks && isLoading && !hasError && isZoomed && (
           <div className={styles['c-point-focus__placeholder']} data-testid='pf-zoom-loading'>
             {loadingPlaceholder ?? <span className={styles['c-point-focus__loader']} />}
           </div>

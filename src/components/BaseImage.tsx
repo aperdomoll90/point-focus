@@ -14,6 +14,8 @@ const BaseImage = ({
   loadingPlaceholder,
   errorPlaceholder,
   onError,
+  disableLoadingFallbacks = false,
+  disableErrorFallbacks = false,
 }: IBaseImageTypes) => {
   const imgRef = React.useRef<HTMLImageElement | null>(null)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -25,23 +27,21 @@ const BaseImage = ({
   }, [src])
 
   const handleLoad = () => {
-    console.log('Image loaded')
     setIsLoading(false)
   }
 
   const handleError = () => {
     setHasError(true)
     setIsLoading(false)
-    console.error('Image has error')
     onError?.()
   }
 
   React.useEffect(() => {
-  const img = imgRef.current
-  if (img && img.complete && img.naturalWidth > 0) {
-    setIsLoading(false)
-  }
-}, [src])
+    const img = imgRef.current
+    if (img && img.complete && img.naturalWidth > 0) {
+      handleLoad()
+    }
+  }, [src])
 
   const imageStyle = React.useMemo(
     () => ({
@@ -53,42 +53,47 @@ const BaseImage = ({
 
   const imageClass = [styles['c-point-focus__img'], baseImageClassName].filter(Boolean).join(' ')
 
-  const imgElement = !hasError ? (
-    <img
-      ref={imgRef}
-      alt={alt}
-      src={src}
-      style={imageStyle}
-      onLoad={handleLoad}
-      onError={handleError}
-      className={imageClass}
-      data-hidden={isZoomed}
-      data-testid='pf-base-image'
-    />
-  ) : null
+  const defaultImg =
+    !hasError && src ? (
+      <img
+        ref={imgRef}
+        alt={alt}
+        src={src}
+        style={imageStyle}
+        onLoad={handleLoad}
+        onError={handleError}
+        className={imageClass}
+        data-hidden={isZoomed}
+        data-testid='pf-base-image'
+        crossOrigin='anonymous'
+      />
+    ) : null
+
+  const wrappedImage =
+    sources && sources.length > 0 ? (
+      <picture style={{ width: '100%', height: '100%' }}>
+        {sources
+          .filter(s => s.srcSet)
+          .map((source, i) => (
+            <source key={i} {...source} />
+          ))}
+        {defaultImg}
+      </picture>
+    ) : (
+      defaultImg
+    )
 
   return (
     <>
-      {sources && sources.length > 0 ? (
-        <picture style={{ width: '100%', height: '100%' }}>
-          {sources
-            .filter(s => s.srcSet)
-            .map((source, i) => (
-              <source key={i} {...source} />
-            ))}
-          {imgElement}
-        </picture>
-      ) : (
-        imgElement
-      )}
+      {wrappedImage}
 
-      {isLoading && !hasError && (
+      {!disableLoadingFallbacks && !isLoading && !hasError && (
         <div className={styles['c-point-focus__placeholder']} style={{ zIndex: 0 }} data-testid='pf-base-loading'>
-          {loadingPlaceholder ?? <FallbackImage />}
+          {loadingPlaceholder ?? <span className={styles['c-point-focus__loader']} />}
         </div>
       )}
 
-      {hasError && (
+      {!disableErrorFallbacks && hasError && (
         <div className={styles['c-point-focus__placeholder']} style={{ zIndex: 0 }} data-testid='pf-base-error'>
           {errorPlaceholder ?? <FallbackImage />}
         </div>

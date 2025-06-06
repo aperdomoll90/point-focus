@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  getBounds,
-  getDefaults,
-  getOffsets,
-  getPageCoords,
-  getRatios,
-  getScaledDimensions,
-  isTouchEvent,
-  ZoomFallbackBoundary,
-} from './utils/globalUtils'
+import { getBounds, getDefaults, getOffsets, getPageCoords, getRatios, isTouchEvent, ZoomFallbackBoundary } from './utils/globalUtils'
 import { applyMouseMove, initializeFollowZoomPosition, applyDragMove } from './utils/movementUtils'
 import { IImageMagnifierTypes, IImageTypes, IInteractionTYpe, IZoomImageTypes } from './ImageMagnifier.types'
 import styles from './styles.module.scss'
@@ -62,6 +53,8 @@ const ImageMagnifier = ({
   externalZoomState,
   setExternalZoomState,
   disableMobile,
+  disableLoadingFallbacks,
+  disableErrorFallbacks,
 }: IImageMagnifierTypes) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
   const closeButtonRef = React.useRef<HTMLButtonElement | null>(null)
@@ -118,6 +111,12 @@ const ImageMagnifier = ({
   const handleDragStart = React.useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
       if (!isZoomed || disableDrag || (disableMobile && isTouchEvent(e))) return
+
+      if (zoomContextRef.current.rafId != null) {
+        cancelAnimationFrame(zoomContextRef.current.rafId)
+        zoomContextRef.current.rafId = null
+      }
+
       const { x, y } = getPageCoords(e)
       setIsDragging(true)
       zoomContextRef.current.dragStartCoords = getOffsets(x, y, left, top)
@@ -179,6 +178,7 @@ const ImageMagnifier = ({
         onEnd: () => {
           // Optionally, snap to bounds or do something else
         },
+        contextRef: zoomContextRef,
       })
     }
     onDragEnd?.({
@@ -345,7 +345,6 @@ const ImageMagnifier = ({
     [zoomPreload, setIsActive, setIsFading, afterZoomOut]
   )
 
-  // possibly extra to be removed
   React.useEffect(() => {
     zoomContextRef.current = getDefaults()
     return () => {
@@ -396,6 +395,8 @@ const ImageMagnifier = ({
     loadingPlaceholder: loadingPlaceholder,
     errorPlaceholder: errorPlaceholder,
     zoomScale: safeZoomScale,
+    disableLoadingFallbacks: disableLoadingFallbacks,
+    disableErrorFallbacks: disableErrorFallbacks,
   }
 
   const containerClass = [styles['c-point-focus'], containerClassName].filter(Boolean).join(' ')
@@ -431,6 +432,10 @@ const ImageMagnifier = ({
         fadeDuration={fadeDuration}
         isZoomed={isZoomed}
         onError={onBaseImageError}
+        loadingPlaceholder={loadingPlaceholder}
+        errorPlaceholder={errorPlaceholder}
+        disableLoadingFallbacks={disableLoadingFallbacks}
+        disableErrorFallbacks={disableErrorFallbacks}
       />
       {isActive && (
         <>

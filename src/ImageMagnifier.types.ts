@@ -58,7 +58,9 @@ export interface IImageMagnifierTypes {
   disableDrag?: boolean
   disableInertia?: boolean
   loadingPlaceholder?: React.ReactNode
+  disableLoadingFallbacks?: boolean
   errorPlaceholder?: React.ReactNode
+  disableErrorFallbacks?: boolean
 }
 
 type ICoordinateObject = { x: number; y: number }
@@ -101,7 +103,9 @@ export type IZoomImageTypes = {
   onKeyDown: (e: React.KeyboardEvent) => void
   closeButtonContent?: React.ReactNode | undefined
   loadingPlaceholder?: React.ReactNode
+  disableLoadingFallbacks?: boolean
   errorPlaceholder?: React.ReactNode
+  disableErrorFallbacks?: boolean
   zoomScale: number
 }
 
@@ -116,7 +120,9 @@ export type IBaseImageTypes = {
   fadeDuration?: number
   alt: string
   loadingPlaceholder?: React.ReactNode
+  disableLoadingFallbacks?: boolean
   errorPlaceholder?: React.ReactNode
+  disableErrorFallbacks?: boolean
   onError?: (() => void) | undefined
 }
 
