@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  getBounds,
-  getDefaults,
-  getOffsets,
-  getPageCoords,
-  getRatios,
-  getScaledDimensions,
-  isTouchEvent,
-  ZoomFallbackBoundary,
-} from './utils/globalUtils'
+import { getBounds, getDefaults, getOffsets, getPageCoords, getRatios, isTouchEvent, ZoomFallbackBoundary } from './utils/globalUtils'
 import { applyMouseMove, initializeFollowZoomPosition, applyDragMove } from './utils/movementUtils'
 import { IImageMagnifierTypes, IImageTypes, IInteractionTYpe, IZoomImageTypes } from './ImageMagnifier.types'
 import styles from './styles.module.scss'
@@ -62,6 +53,8 @@ const ImageMagnifier = ({
   externalZoomState,
   setExternalZoomState,
   disableMobile,
+  disableLoadingFallbacks,
+  disableErrorFallbacks,
 }: IImageMagnifierTypes) => {
   const containerRef = React.useRef<HTMLDivElement | null>(null)
   const closeButtonRef = React.useRef<HTMLButtonElement | null>(null)
@@ -402,6 +395,8 @@ const ImageMagnifier = ({
     loadingPlaceholder: loadingPlaceholder,
     errorPlaceholder: errorPlaceholder,
     zoomScale: safeZoomScale,
+    disableLoadingFallbacks: disableLoadingFallbacks,
+    disableErrorFallbacks: disableErrorFallbacks,
   }
 
   const containerClass = [styles['c-point-focus'], containerClassName].filter(Boolean).join(' ')
@@ -437,6 +432,10 @@ const ImageMagnifier = ({
         fadeDuration={fadeDuration}
         isZoomed={isZoomed}
         onError={onBaseImageError}
+        loadingPlaceholder={loadingPlaceholder}
+        errorPlaceholder={errorPlaceholder}
+        disableLoadingFallbacks={disableLoadingFallbacks}
+        disableErrorFallbacks={disableErrorFallbacks}
       />
       {isActive && (
         <>

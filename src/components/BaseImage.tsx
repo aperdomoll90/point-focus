@@ -14,6 +14,8 @@ const BaseImage = ({
   loadingPlaceholder,
   errorPlaceholder,
   onError,
+  disableLoadingFallbacks = false,
+  disableErrorFallbacks = false,
 }: IBaseImageTypes) => {
   const imgRef = React.useRef<HTMLImageElement | null>(null)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -85,13 +87,13 @@ const BaseImage = ({
     <>
       {wrappedImage}
 
-      {isLoading && !hasError && (
+      {!disableLoadingFallbacks && !isLoading && !hasError && (
         <div className={styles['c-point-focus__placeholder']} style={{ zIndex: 0 }} data-testid='pf-base-loading'>
-          {loadingPlaceholder ?? <FallbackImage />}
+          {loadingPlaceholder ?? <span className={styles['c-point-focus__loader']} />}
         </div>
       )}
 
-      {hasError && (
+      {!disableErrorFallbacks && hasError && (
         <div className={styles['c-point-focus__placeholder']} style={{ zIndex: 0 }} data-testid='pf-base-error'>
           {errorPlaceholder ?? <FallbackImage />}
         </div>
