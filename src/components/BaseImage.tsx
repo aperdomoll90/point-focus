@@ -87,7 +87,7 @@ const BaseImage = ({
     <>
       {wrappedImage}
 
-      {!disableLoadingFallbacks && !isLoading && !hasError && (
+      {!disableLoadingFallbacks && isLoading && !hasError && (
         <div className={styles['c-point-focus__placeholder']} style={{ zIndex: 0 }} data-testid='pf-base-loading'>
           {loadingPlaceholder ?? <span className={styles['c-point-focus__loader']} />}
         </div>
