@@ -118,6 +118,12 @@ const ImageMagnifier = ({
   const handleDragStart = React.useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
       if (!isZoomed || disableDrag || (disableMobile && isTouchEvent(e))) return
+
+      if (zoomContextRef.current.rafId != null) {
+        cancelAnimationFrame(zoomContextRef.current.rafId)
+        zoomContextRef.current.rafId = null
+      }
+
       const { x, y } = getPageCoords(e)
       setIsDragging(true)
       zoomContextRef.current.dragStartCoords = getOffsets(x, y, left, top)
@@ -179,6 +185,7 @@ const ImageMagnifier = ({
         onEnd: () => {
           // Optionally, snap to bounds or do something else
         },
+        contextRef: zoomContextRef,
       })
     }
     onDragEnd?.({
@@ -345,7 +352,6 @@ const ImageMagnifier = ({
     [zoomPreload, setIsActive, setIsFading, afterZoomOut]
   )
 
-  // possibly extra to be removed
   React.useEffect(() => {
     zoomContextRef.current = getDefaults()
     return () => {
